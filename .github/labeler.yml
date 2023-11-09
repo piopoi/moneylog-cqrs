@@ -1,0 +1,40 @@
+# enable labeler on issues, prs, or both.
+enable:
+  issues: false
+  prs: true
+
+# 레이블을 성공적으로 붙이고 PR에 보낼 코멘트를 설정
+comments:
+  prs: |
+    Auto add labels
+
+# 레이블
+labels:
+  'fix':
+    include:
+      - '\bfix #\b'
+      - '\bfix: \b'
+  'test':
+    include:
+      - '\btest #\b'
+      - '\btest: \b'
+  '☁feature':
+    include:
+      - '\bfeat #\b'
+      - '\bfeat: \b'
+  'docs':
+    include:
+      - '\bdocs #\b'
+      - '\bdocs: \b'
+  'refactor':
+    include:
+      - '\brefactor #\b'
+      - '\brefactor: \b'
+  'setup':
+    include:
+      - '\bsetup #\b'
+      - '\bsetup: \b'
+  'style':
+    include:
+      - '\bstyle #\b'
+      - '\bstyle: \b'
