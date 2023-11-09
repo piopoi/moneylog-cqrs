@@ -37,5 +37,7 @@ out/
 .vscode/
 
 ### Custom ###
+.DS_Store
 logs/
 docker/
+generated/
