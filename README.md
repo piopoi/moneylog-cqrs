@@ -4,16 +4,22 @@
 머니로그(moneylog)는 사용자들이 개인 재무를 관리하고 지출을 추적하는 데 도움을 주는 애플리케이션으로,
 사용자들이 예산을 설정하고 지출을 모니터링하며 재무 목표를 달성하는 데 도움을 주는 것이 목표이다.
 
+<br>
+
 # 개발자
 강석원
 - email: [kangsw1988@gmail.com](mailto:kangsw1988@gmail.com)
 - github: [https://github.com/piopoi](https://github.com/piopoi)
+
+<br>
 
 # 사용 기술
 - Spring Boot 3.1.5
 - Spring Security 6.1.5
 - MySQL 8.0.34
 - Swagger
+
+<br>
 
 # TODO
 
@@ -88,6 +94,8 @@
     - 오늘 기준 다른 `유저` 가 예산 대비 사용한 평균 비율 대비 나의 소비율
     - 오늘 기준 다른 유저가 소비한 지출이 평균 50%(ex. 예산 100만원 중 50만원 소비중) 이고 나는 60% 이면 120%.
     - (ex) `다른 사용자` 대비 120%
+
+<br>
 
 # 요구사항
 [요구사항 바로가기](docs/요구사항.md)
