@@ -40,7 +40,7 @@ class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    protected ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
