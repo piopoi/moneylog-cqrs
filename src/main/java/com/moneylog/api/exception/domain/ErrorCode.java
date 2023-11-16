@@ -26,10 +26,15 @@ public enum ErrorCode {
     AUTH_PASSWORD_EMPTY("비밀번호가 없습니다.", BAD_REQUEST),
 
     BUDGET_REQUEST_EMPTY("1건 이상의 예산을 설정해주세요.", BAD_REQUEST),
-    BUDGET_CATEGORY_NOT_EXISTS("존재하지 않는 카테고리입니다.", BAD_REQUEST),
-    BUDGET_CATEGORY_EMPTY("카테고리가 없습니다.", BAD_REQUEST),
     BUDGET_BUDGETAMOUNT_EMPTY("예산액이 없습니다.", BAD_REQUEST),
     BUDGET_BUDGETAMOUNT_INVALID("잘못된 예산액입니다.", BAD_REQUEST),
+
+    CATEGORY_NOT_EXISTS("존재하지 않는 카테고리입니다.", BAD_REQUEST),
+    CATEGORY_EMPTY("카테고리가 없습니다.", BAD_REQUEST),
+
+    EXPENSE_EXPENDEDAT_EMPTY("지출일시가 없습니다.", BAD_REQUEST),
+    EXPENSE_EXPENSEAMOUNT_EMPTY("지출액이 없습니다.", BAD_REQUEST),
+    EXPENSE_ISEXCLUDETOTAL_EMPTY("합계제외여부가 없습니다.", BAD_REQUEST),
 
     MEMBER_NOT_EXISTS("존재하지 않는 사용자입니다.", BAD_REQUEST),
     MEMBER_EMAIL_EMPTY("이메일이 없습니다.", BAD_REQUEST),
