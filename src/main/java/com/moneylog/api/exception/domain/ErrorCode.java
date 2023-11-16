@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum ErrorCode {
 
     COMMON_INVALID_PARAMETER("잘못된 파라미터입니다.", BAD_REQUEST),
@@ -25,13 +25,18 @@ public enum ErrorCode {
     AUTH_MEMBER_NOT_EXISTS("존재하지 않는 사용자입니다.", UNAUTHORIZED),
     AUTH_PASSWORD_EMPTY("비밀번호가 없습니다.", BAD_REQUEST),
 
+    BUDGET_REQUEST_EMPTY("1건 이상의 예산을 설정해주세요.", BAD_REQUEST),
+    BUDGET_CATEGORY_NOT_EXISTS("존재하지 않는 카테고리입니다.", BAD_REQUEST),
+    BUDGET_CATEGORY_EMPTY("카테고리가 없습니다.", BAD_REQUEST),
+    BUDGET_BUDGETAMOUNT_EMPTY("예산액이 없습니다.", BAD_REQUEST),
+    BUDGET_BUDGETAMOUNT_INVALID("잘못된 예산액입니다.", BAD_REQUEST),
+
     MEMBER_NOT_EXISTS("존재하지 않는 사용자입니다.", BAD_REQUEST),
     MEMBER_EMAIL_EMPTY("이메일이 없습니다.", BAD_REQUEST),
     MEMBER_EMAIL_INVALID("잘못된 이메일입니다.", BAD_REQUEST),
     MEMBER_PASSWORD_EMPTY("비밀번호가 없습니다.", BAD_REQUEST),
 
-    ROLE_NAME_INVALID("잘못된 권한입니다.", BAD_REQUEST)
-    ;
+    ROLE_NAME_INVALID("잘못된 권한입니다.", BAD_REQUEST);
 
     private final String message;
     private final HttpStatus httpStatus;

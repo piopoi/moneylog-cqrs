@@ -19,8 +19,8 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Getter
 @Entity
+@Getter
 @ToString
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 public class Member extends BaseEntity {
