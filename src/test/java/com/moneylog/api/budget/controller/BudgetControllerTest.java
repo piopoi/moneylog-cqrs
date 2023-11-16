@@ -111,7 +111,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_CATEGORY_NOT_EXISTS.name()));
+                .andExpect(jsonPath("$.code").value(CATEGORY_NOT_EXISTS.name()));
     }
 
     @Test
@@ -133,7 +133,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_CATEGORY_EMPTY.name()));
+                .andExpect(jsonPath("$.code").value(CATEGORY_EMPTY.name()));
     }
 
     @Test

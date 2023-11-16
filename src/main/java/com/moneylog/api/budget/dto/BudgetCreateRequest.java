@@ -23,7 +23,7 @@ public class BudgetCreateRequest {
     @Builder
     public static class BudgetRequest {
 
-        @NotNull(message = "BUDGET_CATEGORY_EMPTY")
+        @NotNull(message = "CATEGORY_EMPTY")
         private Long categoryId;
 
         @NotNull(message = "BUDGET_BUDGETAMOUNT_EMPTY")
