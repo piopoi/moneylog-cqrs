@@ -3,6 +3,7 @@ package com.moneylog.api.expense.controller;
 import static com.moneylog.api.exception.domain.ErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -299,6 +300,45 @@ class ExpenseControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(EXPENSE_EXPENSEAMOUNT_MINUS.name()));
+    }
+
+    @Test
+    @WithUserDetails(value = email1, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("지출을 상세 조회할 수 있다.")
+    void getExpense() throws Exception {
+        //when then
+        mockMvc.perform(get(requestUri + "/{expenseId}", expense.getId())
+                        .accept(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.expenseId").value(expense.getId()));
+    }
+
+    @Test
+    @WithUserDetails(value = email2, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("권한이 없으면 지출을 상세 조회할 수 없다.")
+    void getExpense_unAuth() throws Exception {
+        //when then
+        mockMvc.perform(get(requestUri + "/{expenseId}", expense.getId())
+                        .accept(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
+    }
+
+    @Test
+    @WithUserDetails(value = email1, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("없는 지출을 상세 조회할 수 없다.")
+    void getExpense_notExistsExpense() throws Exception {
+        //when then
+        mockMvc.perform(get(requestUri + "/{expenseId}", 99L)
+                        .accept(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(EXPENSE_NOT_EXISTS.name()));
     }
 
     private void saveTestData() {
