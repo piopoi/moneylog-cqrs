@@ -1,5 +1,6 @@
 package com.moneylog.api.member.domain;
 
+import static com.moneylog.api.member.domain.Role.ROLE_ADMIN;
 import static com.moneylog.api.member.domain.Role.ROLE_USER;
 
 import com.moneylog.api.common.domain.BaseEntity;
@@ -57,5 +58,9 @@ public class Member extends BaseEntity {
                 .password(encodePassword)
                 .role(memberCreateRequest.getRole())
                 .build();
+    }
+
+    public boolean isAdmin() {
+        return Objects.equals(this.role, ROLE_ADMIN);
     }
 }
