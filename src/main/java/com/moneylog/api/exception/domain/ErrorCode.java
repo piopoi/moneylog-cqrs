@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    COMMON_ACCESS_DENIED("권한이 없습니다.", FORBIDDEN),
     COMMON_INVALID_PARAMETER("잘못된 파라미터입니다.", BAD_REQUEST),
     COMMON_SERVER_ERROR("서버에서 에러가 발생하였습니다.", INTERNAL_SERVER_ERROR),
 
@@ -32,11 +33,13 @@ public enum ErrorCode {
     CATEGORY_NOT_EXISTS("존재하지 않는 카테고리입니다.", BAD_REQUEST),
     CATEGORY_EMPTY("카테고리가 없습니다.", BAD_REQUEST),
 
+    EXPENSE_NOT_EXISTS("존재하지 않는 지출입니다.", NOT_FOUND),
     EXPENSE_EXPENDEDAT_EMPTY("지출일시가 없습니다.", BAD_REQUEST),
     EXPENSE_EXPENSEAMOUNT_EMPTY("지출액이 없습니다.", BAD_REQUEST),
+    EXPENSE_EXPENSEAMOUNT_MINUS("지출액은 0원 이상이어야 합니다.", BAD_REQUEST),
     EXPENSE_ISEXCLUDETOTAL_EMPTY("합계제외여부가 없습니다.", BAD_REQUEST),
 
-    MEMBER_NOT_EXISTS("존재하지 않는 사용자입니다.", BAD_REQUEST),
+    MEMBER_NOT_EXISTS("존재하지 않는 사용자입니다.", NOT_FOUND),
     MEMBER_EMAIL_EMPTY("이메일이 없습니다.", BAD_REQUEST),
     MEMBER_EMAIL_INVALID("잘못된 이메일입니다.", BAD_REQUEST),
     MEMBER_PASSWORD_EMPTY("비밀번호가 없습니다.", BAD_REQUEST),

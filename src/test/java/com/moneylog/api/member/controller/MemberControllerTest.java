@@ -164,7 +164,7 @@ class MemberControllerTest {
                         .accept(APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(MEMBER_NOT_EXISTS.name()));
     }
 }
