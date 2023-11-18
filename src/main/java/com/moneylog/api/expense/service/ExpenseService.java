@@ -7,6 +7,7 @@ import com.moneylog.api.category.service.CategoryService;
 import com.moneylog.api.exception.domain.CustomException;
 import com.moneylog.api.expense.domain.Expense;
 import com.moneylog.api.expense.dto.ExpenseCreateRequest;
+import com.moneylog.api.expense.dto.ExpenseGetResponse;
 import com.moneylog.api.expense.dto.ExpenseUpdateRequest;
 import com.moneylog.api.expense.repository.ExpenseRepository;
 import com.moneylog.api.member.domain.Member;
@@ -34,6 +35,12 @@ public class ExpenseService {
         Expense expense = findExpenseById(expenseId);
         Category category = findCategoryById(expenseUpdateRequest.getCategoryId());
         expense.update(expenseUpdateRequest, category);
+    }
+
+    @Transactional(readOnly = true)
+    public ExpenseGetResponse getExpense(Long expenseId) {
+        Expense expense = findExpenseById(expenseId);
+        return ExpenseGetResponse.from(expense);
     }
 
     @Transactional(readOnly = true)

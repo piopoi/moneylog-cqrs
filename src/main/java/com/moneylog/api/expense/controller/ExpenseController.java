@@ -2,6 +2,7 @@ package com.moneylog.api.expense.controller;
 
 import com.moneylog.api.auth.domain.MemberAdapter;
 import com.moneylog.api.expense.dto.ExpenseCreateRequest;
+import com.moneylog.api.expense.dto.ExpenseGetResponse;
 import com.moneylog.api.expense.dto.ExpenseUpdateRequest;
 import com.moneylog.api.expense.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,5 +38,13 @@ public class ExpenseController {
                                               @RequestBody @Valid ExpenseUpdateRequest expenseUpdateRequest) {
         expenseService.updateExpense(expenseId, expenseUpdateRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/api/expenses/{expenseId}")
+    @PreAuthorize("@expenseService.hasAuthManageExpense(#memberAdapter.getMember(), #expenseId)")
+    public ResponseEntity<ExpenseGetResponse> getExpense(@AuthenticationPrincipal MemberAdapter memberAdapter,
+                                                         @PathVariable Long expenseId) {
+        ExpenseGetResponse expenseGetResponse = expenseService.getExpense(expenseId);
+        return ResponseEntity.ok(expenseGetResponse);
     }
 }
