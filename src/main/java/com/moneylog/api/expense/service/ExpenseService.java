@@ -43,6 +43,11 @@ public class ExpenseService {
         return ExpenseGetResponse.from(expense);
     }
 
+    @Transactional
+    public void deleteExpense(Long expenseId) {
+        expenseRepository.deleteById(expenseId);
+    }
+
     @Transactional(readOnly = true)
     public boolean hasAuthManageExpense(Member member, Long expenseId) {
         Expense expense = findExpenseById(expenseId);
