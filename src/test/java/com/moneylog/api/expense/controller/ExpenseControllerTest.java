@@ -23,6 +23,7 @@ import com.moneylog.api.member.repository.MemberRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +57,7 @@ class ExpenseControllerTest {
     private MemberRepository memberRepository;
 
     private Expense expense;
+    private Member member;
 
     @BeforeEach
     void setUp() {
@@ -342,6 +344,41 @@ class ExpenseControllerTest {
                 .andExpect(jsonPath("$.code").value(EXPENSE_NOT_EXISTS.name()));
     }
 
+    @Test
+    @WithUserDetails(value = email1, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("지출 목록을 조회할 수 있다.")
+    void getExpenses_noFilter() throws Exception {
+        //given
+        List<Category> categories = categoryRepository.findAll();
+        saveExpense(LocalDateTime.of(2023, 10, 10, 12, 0, 0), 10000L, categories.get(1), false);//invalid expendedStartAt
+        saveExpense(LocalDateTime.of(2023, 11, 10, 13, 0, 0), 2999L, categories.get(1), false);//invalid expenseAmountMin
+        saveExpense(LocalDateTime.of(2023, 11, 20, 12, 0, 0), 100001L, categories.get(1), false);//invalid expenseAmountMax
+        saveExpense(LocalDateTime.of(2023, 12, 30, 12, 0, 0), 10000L, categories.get(1), false);//invalid sexpendedEndAt
+        saveExpense(LocalDateTime.of(2023, 11, 10, 14, 0, 0), 10000L, categories.get(1), true);
+        saveExpense(LocalDateTime.of(2023, 11, 10, 12, 0, 0), 100000L, categories.get(1), false);
+        saveExpense(LocalDateTime.of(2023, 11, 15, 12, 0, 0), 10000L, categories.get(1), false);
+        saveExpense(LocalDateTime.of(2023, 11, 21, 12, 0, 0), 10000L, categories.get(1), false);
+        saveExpense(LocalDateTime.of(2023, 11, 30, 12, 0, 0), 3000L, categories.get(1), false);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("expendedStartAt", "2023-11-01T00:00");
+        params.put("expendedEndAt", "2023-11-30T23:59");
+        params.put("expenseAmountMin", 3000L);
+        params.put("expenseAmountMax", 100000L);
+        params.put("categoryId", categories.get(1).getId());
+
+        //when then
+        mockMvc.perform(get(requestUri)
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(params))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalAmount").value(123000))
+                .andExpect(jsonPath("$.expenses.length()").value(5))
+                .andExpect(jsonPath("$.categoryAmount.length()").value(1));
+    }
 
     @Test
     @WithUserDetails(value = email1, setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -358,15 +395,14 @@ class ExpenseControllerTest {
     @DisplayName("권한이 없으면 지출을 삭제할 수 없다.")
     void deleteExpense_unAuth() throws Exception {
         //when then
-        mockMvc.perform(delete(requestUri + "/{expenseId}", 1L))
+        mockMvc.perform(delete(requestUri + "/{expenseId}", expense.getId()))
                 .andDo(print())
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
     }
 
     private void saveTestData() {
-        //add member
-        Member member = memberRepository.save(Member.builder()
+        member = memberRepository.save(Member.builder()
                 .email(email1)
                 .password("12345678")
                 .role(Role.ROLE_USER)
@@ -377,18 +413,20 @@ class ExpenseControllerTest {
                 .role(Role.ROLE_USER)
                 .build());
 
-        //get category
         Category category = categoryRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(CATEGORY_NOT_EXISTS));
 
-        //add expense
-        expense = expenseRepository.save(Expense.builder()
+        expense = saveExpense(LocalDateTime.of(2023, 11, 1, 12, 0, 0), 10000L, category, false);
+    }
+
+    private Expense saveExpense(LocalDateTime expendedAt, Long expenseAmount, Category category, Boolean isExcludeTotal) {
+        return expenseRepository.save(Expense.builder()
                 .member(member)
-                .expendedAt(LocalDateTime.of(2023, 11, 1, 12, 0, 0))
-                .expenseAmount(10000L)
+                .expendedAt(expendedAt)
+                .expenseAmount(expenseAmount)
                 .category(category)
                 .memo("")
-                .isExcludeTotal(false)
+                .isExcludeTotal(isExcludeTotal)
                 .build());
     }
 }

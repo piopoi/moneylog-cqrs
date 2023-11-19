@@ -2,6 +2,8 @@ package com.moneylog.api.expense.controller;
 
 import com.moneylog.api.auth.domain.MemberAdapter;
 import com.moneylog.api.expense.dto.ExpenseCreateRequest;
+import com.moneylog.api.expense.dto.ExpenseGetListRequest;
+import com.moneylog.api.expense.dto.ExpenseGetListResponse;
 import com.moneylog.api.expense.dto.ExpenseGetResponse;
 import com.moneylog.api.expense.dto.ExpenseUpdateRequest;
 import com.moneylog.api.expense.service.ExpenseService;
@@ -47,6 +49,14 @@ public class ExpenseController {
                                                          @PathVariable Long expenseId) {
         ExpenseGetResponse expenseGetResponse = expenseService.getExpense(expenseId);
         return ResponseEntity.ok(expenseGetResponse);
+    }
+
+    @GetMapping("/api/expenses")
+    public ResponseEntity<ExpenseGetListResponse> getExpenses(@AuthenticationPrincipal MemberAdapter memberAdapter,
+                                                              @RequestBody @Valid ExpenseGetListRequest expenseGetListRequest) {
+        Long memberId = memberAdapter.getMember().getId();
+        ExpenseGetListResponse expenseGetListResponse = expenseService.getExpenses(memberId, expenseGetListRequest);
+        return ResponseEntity.ok(expenseGetListResponse);
     }
 
     @DeleteMapping("/api/expenses/{expenseId}")
