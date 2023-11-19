@@ -3,6 +3,7 @@ package com.moneylog.api.expense.controller;
 import static com.moneylog.api.exception.domain.ErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -339,6 +340,28 @@ class ExpenseControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(EXPENSE_NOT_EXISTS.name()));
+    }
+
+
+    @Test
+    @WithUserDetails(value = email1, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("지출을 삭제할 수 있다.")
+    void deleteExpense() throws Exception {
+        //when then
+        mockMvc.perform(delete(requestUri + "/{expenseId}", expense.getId()))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails(value = email2, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("권한이 없으면 지출을 삭제할 수 없다.")
+    void deleteExpense_unAuth() throws Exception {
+        //when then
+        mockMvc.perform(delete(requestUri + "/{expenseId}", 1L))
+                .andDo(print())
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
     }
 
     private void saveTestData() {
