@@ -1,6 +1,7 @@
 package com.moneylog.api.config;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.http.HttpMethod.*;
 
 import com.moneylog.api.auth.infrastructure.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,18 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
 
+    //Swagger
+    private final String swaggerPath;
+    private final String apiDocsPath;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers(POST, "/api/members").permitAll()
+                        .requestMatchers(POST, "/api/auth/login").permitAll()
+                        .requestMatchers(swaggerPath).permitAll()
+                        .requestMatchers(apiDocsPath).permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))

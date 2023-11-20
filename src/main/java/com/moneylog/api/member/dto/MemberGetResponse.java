@@ -2,14 +2,20 @@ package com.moneylog.api.member.dto;
 
 import com.moneylog.api.member.domain.Member;
 import com.moneylog.api.member.domain.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class MemberGetResponse {
 
+    @Schema(description = "사용자 아이디", example = "1")
     private final Long id;
+
+    @Schema(description = "사용자 이메일", example = "test@test.com")
     private final String email;
+
+    @Schema(description = "사용자 권한")
     private final Role role;
 
     @Builder

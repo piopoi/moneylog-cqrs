@@ -73,9 +73,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
         logError(e);
-        if (e.getCause() instanceof CustomException customException) {
-            return createResponseEntity(customException.getErrorCode());
-        }
         return createResponseEntity(INTERNAL_SERVER_ERROR, COMMON_SERVER_ERROR.name(), e.getMessage());
     }
 

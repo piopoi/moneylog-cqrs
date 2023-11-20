@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class BudgetController {
+public class BudgetController implements BudgetControllerDocs {
 
     private final BudgetService budgetService;
 
