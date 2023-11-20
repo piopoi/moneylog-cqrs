@@ -23,6 +23,9 @@
 
 # TODO
 
+## Infrastructure
+- [x] Swagger 적용
+
 ## 사용자
 - [x] 사용자 엔티티 구현.
 - [x] 사용자 생성 API 구현.

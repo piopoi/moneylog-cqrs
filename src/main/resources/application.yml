@@ -13,3 +13,18 @@ spring:
     init:
       mode: always
       data-locations: classpath:db/data.sql
+
+springdoc:
+  version: 0.0.1
+  title: MoneyLog API Documentation
+  description: 머니로그 API 명세서
+  termsOfService: piopoi
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match: /api/**
+  packagesToScan: com.moneylog.api
+  swagger-ui:
+    try-it-out-enabled: false
+    path: /swagger-ui
+  api-docs:
+    path: /api-docs

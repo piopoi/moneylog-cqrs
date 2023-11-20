@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ExpenseController {
+public class ExpenseController implements ExpenseControllerDocs {
 
     private final ExpenseService expenseService;
 
