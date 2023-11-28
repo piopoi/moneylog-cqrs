@@ -27,11 +27,18 @@ public class BudgetService {
 
     private List<Budget> makeBudgets(BudgetCreateRequest budgetCreateRequest, Member member) {
         List<BudgetRequest> budgetRequests = budgetCreateRequest.getBudgetRequests();
+        Long totalBudgetAmount = getTotalBudgetAmount(budgetRequests);
         return budgetRequests.stream()
                 .map(budgetRequest -> {
                     Category category = categoryService.findCategoryById(budgetRequest.getCategoryId());
-                    return Budget.of(member, category, budgetRequest.getBudgetAmount());
+                    return Budget.of(member, category, budgetRequest.getBudgetAmount(), totalBudgetAmount);
                 })
                 .toList();
+    }
+
+    private static long getTotalBudgetAmount(List<BudgetRequest> budgetRequests) {
+        return budgetRequests.stream()
+                .mapToLong(BudgetRequest::getBudgetAmount)
+                .sum();
     }
 }
