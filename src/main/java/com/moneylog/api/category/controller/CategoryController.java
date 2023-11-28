@@ -16,7 +16,7 @@ public class CategoryController implements CategoryControllerDocs {
 
     @GetMapping("/api/categories")
     public ResponseEntity<List<CategoryGetResponse>> getAllCategory() {
-        List<CategoryGetResponse> categoryGetResponses = categoryService.getAllCategory();
+        List<CategoryGetResponse> categoryGetResponses = categoryService.getAllCategories();
         return ResponseEntity.ok(categoryGetResponses);
     }
 }

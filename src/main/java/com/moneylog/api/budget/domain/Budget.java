@@ -59,4 +59,13 @@ public class Budget extends BaseEntity {
                 .ratio(ratio)
                 .build();
     }
+
+    public static Budget of(Member member, Category category) {
+        return Budget.builder()
+                .member(member)
+                .category(category)
+                .budgetAmount(0L)
+                .ratio(0.0d)
+                .build();
+    }
 }
