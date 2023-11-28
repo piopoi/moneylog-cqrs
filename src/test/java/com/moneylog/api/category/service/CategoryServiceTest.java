@@ -24,7 +24,7 @@ class CategoryServiceTest {
     @DisplayName("모든 카테고리를 조회할 수 있다.")
     void getAllCategory() {
         //when
-        List<CategoryGetResponse> categoryGetResponses = categoryService.getAllCategory();
+        List<CategoryGetResponse> categoryGetResponses = categoryService.getAllCategories();
 
         //then
         int categoriesSize = categoryRepository.findAll().size();

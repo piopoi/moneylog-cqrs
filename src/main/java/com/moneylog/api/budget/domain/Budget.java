@@ -36,21 +36,36 @@ public class Budget extends BaseEntity {
     @Column(nullable = false)
     private Long budgetAmount;
 
+    @Column(nullable = false)
+    private Double ratio;
+
     protected Budget() {
     }
 
     @Builder
-    private Budget(Member member, Category category, Long budgetAmount) {
+    private Budget(Member member, Category category, Long budgetAmount, Double ratio) {
         this.member = member;
         this.category = category;
         this.budgetAmount = budgetAmount;
+        this.ratio = ratio;
     }
 
-    public static Budget of(Member member, Category category, Long budgetAmount) {
+    public static Budget of(Member member, Category category, Long budgetAmount, Long totalBudgetAmount) {
+        Double ratio = (double) budgetAmount / totalBudgetAmount * 100;
         return Budget.builder()
                 .member(member)
                 .category(category)
                 .budgetAmount(budgetAmount)
+                .ratio(ratio)
+                .build();
+    }
+
+    public static Budget of(Member member, Category category) {
+        return Budget.builder()
+                .member(member)
+                .category(category)
+                .budgetAmount(0L)
+                .ratio(0.0d)
                 .build();
     }
 }

@@ -93,29 +93,6 @@ class BudgetControllerTest {
 
     @Test
     @WithUserDetails(value = email, setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @DisplayName("존재하지 않는 카테고리로 예산을 설정할 수 없다.")
-    void createBudget_notExistsCategory() throws Exception {
-        //given
-        BudgetRequest budgetRequest1 = BudgetRequest.builder()
-                .categoryId(999L)
-                .budgetAmount(100000L)
-                .build();
-        BudgetCreateRequest budgetCreateRequest = BudgetCreateRequest.builder()
-                .budgetRequests(Arrays.asList(budgetRequest1))
-                .build();
-
-        //when then
-        mockMvc.perform(post(requestUri)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(budgetCreateRequest))
-                )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(CATEGORY_NOT_EXISTS.name()));
-    }
-
-    @Test
-    @WithUserDetails(value = email, setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("카테고리 없이 예산을 설정할 수 없다.")
     void createBudget_emptyCategory() throws Exception {
         //given

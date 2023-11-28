@@ -57,7 +57,7 @@ class BudgetServiceTest {
 
         //then
         List<Budget> budgets = budgetRepository.findAll();
-        assertThat(budgets.size()).isEqualTo(budgetCreateRequest.getBudgetRequests().size());
+        assertThat(budgets.size()).isEqualTo(categoryRepository.count());
     }
 
     private BudgetCreateRequest createBudgetCreateRequest() {
