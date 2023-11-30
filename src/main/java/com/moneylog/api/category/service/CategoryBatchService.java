@@ -22,7 +22,7 @@ public class CategoryBatchService {
         List<Category> categories = categoryRepository.findAll();
         for (Category category : categories) {
             Double averageRatio = budgetService.getAverageRatioForCategory(category);
-            category.updateAverageRatio(Math.floor(averageRatio)); //소수점 이하 버림
+            category.updateAverageRatio((long) Math.floor(averageRatio)); //소수점 이하 버림
         }
     }
 }
