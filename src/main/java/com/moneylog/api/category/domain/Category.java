@@ -23,12 +23,12 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    private Double averageRatio;
+    private Long averageRatio;
 
     protected Category() {
     }
 
-    public void updateAverageRatio(Double averageRatio) {
+    public void updateAverageRatio(Long averageRatio) {
         this.averageRatio = averageRatio;
     }
 }

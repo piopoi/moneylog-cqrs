@@ -29,6 +29,8 @@ public enum ErrorCode {
     BUDGET_REQUEST_EMPTY("1건 이상의 예산을 설정해주세요.", BAD_REQUEST),
     BUDGET_BUDGETAMOUNT_EMPTY("예산액이 없습니다.", BAD_REQUEST),
     BUDGET_BUDGETAMOUNT_INVALID("잘못된 예산액입니다.", BAD_REQUEST),
+    BUDGET_TOTALAMOUNT_EMPTY("총 예산액이 없습니다.", BAD_REQUEST),
+    BUDGET_TOTALAMOUNT_INVALID("잚못된 예산총액입니다. 최소 10000원 이상의 예산총액을 설정해주세요.", BAD_REQUEST),
 
     CATEGORY_NOT_EXISTS("존재하지 않는 카테고리입니다.", BAD_REQUEST),
     CATEGORY_EMPTY("카테고리가 없습니다.", BAD_REQUEST),

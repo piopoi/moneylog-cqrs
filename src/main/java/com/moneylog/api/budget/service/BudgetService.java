@@ -36,32 +36,33 @@ public class BudgetService {
     private List<Budget> makeBudgets(BudgetCreateRequest budgetCreateRequest, Member member) {
         List<BudgetRequest> budgetRequests = budgetCreateRequest.getBudgetRequests();
         Long totalBudgetAmount = getTotalBudgetAmount(budgetRequests);
-
         List<Category> categories = categoryService.findAllCategories();
         return categories.stream()
-                .map(category -> {
-                    if (isRequestCategory(category, budgetRequests)) {
-                        BudgetRequest budgetRequest = getBudgetRequestByCategory(category, budgetRequests);
-                        return Budget.of(member, category, budgetRequest.getBudgetAmount(), totalBudgetAmount);
-                    }
-                    return Budget.of(member, category);
-                })
+                .map(category -> generateBudget(member, category, budgetRequests, totalBudgetAmount))
                 .toList();
     }
 
-    private static BudgetRequest getBudgetRequestByCategory(Category category, List<BudgetRequest> budgetRequests) {
+    private Budget generateBudget(Member member, Category category, List<BudgetRequest> budgetRequests, Long totalBudgetAmount) {
+        if (isRequestCategory(category, budgetRequests)) {
+            BudgetRequest budgetRequest = getBudgetRequestByCategory(category, budgetRequests);
+            return Budget.of(member, category, budgetRequest.getBudgetAmount(), totalBudgetAmount);
+        }
+        return Budget.of(member, category);
+    }
+
+    private BudgetRequest getBudgetRequestByCategory(Category category, List<BudgetRequest> budgetRequests) {
         return budgetRequests.stream()
                 .filter(budgetRequest -> budgetRequest.getCategoryId().equals(category.getId()))
                 .findFirst()
                 .orElseThrow(() -> new CustomException(CATEGORY_NOT_EXISTS));
     }
 
-    private static boolean isRequestCategory(Category category, List<BudgetRequest> budgetRequests) {
+    private boolean isRequestCategory(Category category, List<BudgetRequest> budgetRequests) {
         return budgetRequests.stream()
                 .anyMatch(budgetRequest -> budgetRequest.getCategoryId().equals(category.getId()));
     }
 
-    private static long getTotalBudgetAmount(List<BudgetRequest> budgetRequests) {
+    private long getTotalBudgetAmount(List<BudgetRequest> budgetRequests) {
         return budgetRequests.stream()
                 .mapToLong(BudgetRequest::getBudgetAmount)
                 .sum();
