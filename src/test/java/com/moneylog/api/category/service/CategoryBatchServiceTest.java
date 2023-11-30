@@ -31,12 +31,12 @@ class CategoryBatchServiceTest {
         //then
         List<Category> categories = categoryRepository.findAll();
         assertThat(categories).allSatisfy(category -> assertThat(category.getAverageRatio()).isNotNull());
-        assertThat(getSumAverageRatio(categories)).isLessThan(100.0);
+        assertThat(getSumAverageRatio(categories)).isLessThan(100L);
     }
 
     private static double getSumAverageRatio(List<Category> categories) {
         return categories.stream()
-                .mapToDouble(Category::getAverageRatio)
+                .mapToLong(Category::getAverageRatio)
                 .sum();
     }
 }

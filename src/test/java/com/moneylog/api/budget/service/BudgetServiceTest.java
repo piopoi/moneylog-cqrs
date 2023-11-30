@@ -36,9 +36,9 @@ class BudgetServiceTest {
     private PasswordEncoder passwordEncoder;
 
     private Member member;
-    private Category foodCategory;
-    private Category transportationCategory;
-    private Category etcCategory;
+    private Category category1;
+    private Category category2;
+    private Category category3;
 
     @BeforeEach
     void setUp() {
@@ -62,15 +62,15 @@ class BudgetServiceTest {
 
     private BudgetCreateRequest createBudgetCreateRequest() {
         BudgetRequest budgetRequest1 = BudgetRequest.builder()
-                .categoryId(foodCategory.getId())
+                .categoryId(category1.getId())
                 .budgetAmount(300000L)
                 .build();
         BudgetRequest budgetRequest2 = BudgetRequest.builder()
-                .categoryId(transportationCategory.getId())
+                .categoryId(category2.getId())
                 .budgetAmount(200000L)
                 .build();
         BudgetRequest budgetRequest3 = BudgetRequest.builder()
-                .categoryId(etcCategory.getId())
+                .categoryId(category3.getId())
                 .budgetAmount(500000L)
                 .build();
         return BudgetCreateRequest.builder()
@@ -79,9 +79,10 @@ class BudgetServiceTest {
     }
 
     private void getTestCategories() {
-        foodCategory = categoryRepository.findById(1L).orElseThrow();
-        transportationCategory = categoryRepository.findById(2L).orElseThrow();
-        etcCategory = categoryRepository.findById(7L).orElseThrow();
+        List<Category> categories = categoryRepository.findAll();
+        category1 = categories.get(0);
+        category2 = categories.get(1);
+        category3 = categories.get(2);
     }
 
     private void createTestMember() {

@@ -25,9 +25,7 @@ public class CategoryService {
     }
 
     public List<Category> findAllCategories() {
-        return categoryRepository.findAll()
-                .stream()
-                .toList();
+        return categoryRepository.findAll();
     }
 
     public Category findCategoryById(Long categoryId) {
