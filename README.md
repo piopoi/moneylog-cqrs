@@ -13,11 +13,12 @@
 
 <br>
 
-# 사용 기술
+# 사용 기술 & 도구
 - Spring Boot 3.1.5
 - Spring Security 6.1.5
 - MySQL 8.0.34
 - Swagger
+- Jira
 
 <br>
 
