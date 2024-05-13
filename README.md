@@ -1,4 +1,4 @@
-# MoneyLog
+# moneylog
 개인 재무 관리 Server Application.
 
 머니로그(moneylog)는 사용자들이 개인 재무를 관리하고 지출을 추적하는 데 도움을 주는 애플리케이션으로,
