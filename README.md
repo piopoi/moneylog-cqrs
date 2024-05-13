@@ -6,13 +6,6 @@
 
 <br>
 
-# 개발자
-강석원
-- email: [kangsw1988@gmail.com](mailto:kangsw1988@gmail.com)
-- github: [https://github.com/piopoi](https://github.com/piopoi)
-
-<br>
-
 # 사용 기술 & 도구
 - Spring Boot 3.1.5
 - Spring Security 6.1.5
