@@ -8,6 +8,7 @@ import com.moneylog.api.member.dto.MemberCreateRequest;
 import com.moneylog.api.member.dto.MemberGetResponse;
 import com.moneylog.api.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "members", key = "#memberId")
     public MemberGetResponse getMember(Long memberId) {
         Member member = findMemberById(memberId);
         return MemberGetResponse.of(member);

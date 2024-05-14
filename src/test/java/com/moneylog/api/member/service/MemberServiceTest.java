@@ -16,6 +16,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,8 @@ class MemberServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public Long memberId;
 
@@ -76,6 +80,21 @@ class MemberServiceTest {
         assertThat(memberGetResponse.getId()).isEqualTo(memberId);
         assertThat(memberGetResponse.getEmail()).isEqualTo(email);
         assertThat(memberGetResponse.getRole()).isEqualTo(ROLE_ADMIN);
+    }
+
+    @Test
+    @DisplayName("id로 캐싱된 사용자를 조회할 수 있다.")
+    void getCachedMember() {
+        //when
+        memberService.getMember(memberId);
+
+        //then: Verify the member is cached
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        MemberGetResponse cachedMemberGetResponse = (MemberGetResponse) valueOperations.get("members::" + memberId);
+        assertThat(cachedMemberGetResponse).isNotNull();
+        assertThat(cachedMemberGetResponse.getId()).isEqualTo(memberId);
+        assertThat(cachedMemberGetResponse.getEmail()).isEqualTo(email);
+        assertThat(cachedMemberGetResponse.getRole()).isEqualTo(ROLE_ADMIN);
     }
 
     @Test

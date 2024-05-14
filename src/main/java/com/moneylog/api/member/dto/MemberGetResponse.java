@@ -10,13 +10,16 @@ import lombok.Getter;
 public class MemberGetResponse {
 
     @Schema(description = "사용자 아이디", example = "1")
-    private final Long id;
+    private Long id;
 
     @Schema(description = "사용자 이메일", example = "test@test.com")
-    private final String email;
+    private String email;
 
     @Schema(description = "사용자 권한")
-    private final Role role;
+    private Role role;
+
+    protected MemberGetResponse() {
+    }
 
     @Builder
     public MemberGetResponse(Long id, String email, Role role) {
