@@ -3,6 +3,7 @@ package com.moneylog.api.member.controller;
 import static com.moneylog.api.exception.domain.ErrorCode.*;
 import static com.moneylog.api.member.domain.Role.ROLE_ADMIN;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -166,5 +167,16 @@ class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(MEMBER_NOT_EXISTS.name()));
+    }
+
+
+    @Test
+    @WithMockUser
+    @DisplayName("사용자를 삭제할 수 있다.")
+    void deleteMember() throws Exception {
+        //when then
+        mockMvc.perform(delete(requestUri + "/{memberId}", memberId))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

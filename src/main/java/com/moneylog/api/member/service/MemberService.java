@@ -8,6 +8,7 @@ import com.moneylog.api.member.dto.MemberCreateRequest;
 import com.moneylog.api.member.dto.MemberGetResponse;
 import com.moneylog.api.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,13 @@ public class MemberService {
     public MemberGetResponse getMember(Long memberId) {
         Member member = findMemberById(memberId);
         return MemberGetResponse.of(member);
+    }
+
+    @Transactional
+    @CacheEvict(value = "members", key = "#memberId")
+    public void deleteMember(Long memberId) {
+        findMemberById(memberId);
+        memberRepository.deleteById(memberId);
     }
 
     private Member findMemberById(Long memberId) {

@@ -22,4 +22,9 @@ public interface MemberControllerDocs {
     @Operation(summary = "사용자 상세 조회", description = "사용자를 상세 조회한다.")
     @ApiResponse(responseCode = "200", description = "OK")
     ResponseEntity<MemberGetResponse> getMember(@Parameter(description = "사용자 아이디") Long memberId);
+
+    @Operation(summary = "사용자 삭제", description = "사용자를 삭제한다.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    ResponseEntity<Void> deleteMember(@Parameter(description = "사용자 아이디") Long memberId);
+
 }
