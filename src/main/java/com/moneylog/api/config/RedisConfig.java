@@ -21,7 +21,7 @@ public class RedisConfig {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
                 .entryTtl(Duration.ofSeconds(-1)) //캐시 만료 시간: 무한대(-1)
-                .disableCachingNullValues();//null 값 캐싱 방
+                .disableCachingNullValues();//null 값 캐싱 안함
 
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(config)
