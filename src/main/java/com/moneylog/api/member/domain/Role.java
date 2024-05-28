@@ -1,6 +1,6 @@
 package com.moneylog.api.member.domain;
 
-import static com.moneylog.api.exception.domain.ErrorCode.ROLE_NAME_INVALID;
+import static com.moneylog.api.exception.domain.ErrorCode.MEMBER_ROLE_INVALID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.moneylog.api.exception.domain.CustomException;
@@ -15,6 +15,6 @@ public enum Role {
         return Stream.of(values())
                 .filter(role -> role.name().equals(inputString))
                 .findFirst()
-                .orElseThrow(() -> new CustomException(ROLE_NAME_INVALID));
+                .orElseThrow(() -> new CustomException(MEMBER_ROLE_INVALID));
     }
 }

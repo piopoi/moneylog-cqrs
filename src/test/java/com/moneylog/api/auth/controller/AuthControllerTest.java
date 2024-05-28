@@ -83,7 +83,7 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(tokenCreateRequest)))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value(AUTH_MEMBER_NOT_EXISTS.name()));
+                .andExpect(jsonPath("$.message").value(AUTH_MEMBER_NOT_EXISTS.getMessage()));
     }
 
     @Test
@@ -101,7 +101,7 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(tokenCreateRequest)))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value(AUTH_AUTHENTICATION_FAILED.name()));
+                .andExpect(jsonPath("$.message").value(AUTH_AUTHENTICATION_FAILED.getMessage()));
     }
 
     @Test
@@ -118,7 +118,7 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(tokenCreateRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(AUTH_EMAIL_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(AUTH_EMAIL_EMPTY.getMessage()));
     }
 
     @Test
@@ -135,6 +135,6 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(tokenCreateRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(AUTH_PASSWORD_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(AUTH_PASSWORD_EMPTY.getMessage()));
     }
 }

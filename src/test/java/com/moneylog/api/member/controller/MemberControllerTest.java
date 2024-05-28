@@ -15,6 +15,8 @@ import com.moneylog.api.member.domain.Member;
 import com.moneylog.api.member.domain.Role;
 import com.moneylog.api.member.dto.MemberCreateRequest;
 import com.moneylog.api.member.repository.MemberRepository;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -98,7 +100,7 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(MEMBER_EMAIL_INVALID.name()));
+                .andExpect(jsonPath("$.message").value(MEMBER_EMAIL_INVALID.getMessage()));
     }
 
     @Test
@@ -118,7 +120,7 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(MEMBER_EMAIL_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(MEMBER_EMAIL_EMPTY.getMessage()));
     }
 
     @Test
@@ -138,7 +140,27 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(MEMBER_PASSWORD_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(MEMBER_PASSWORD_EMPTY.getMessage()));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("잘못된 사용자 권한으로 사용자를 생성할 수 없다.")
+    void createMember_invalidRole() throws Exception {
+        //given
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+        params.put("role", "INVALID_ROLE");
+
+        //when then
+        mockMvc.perform(post(requestUri)
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(params))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -166,7 +188,7 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(MEMBER_NOT_EXISTS.name()));
+                .andExpect(jsonPath("$.message").value(MEMBER_NOT_EXISTS.getMessage()));
     }
 
 

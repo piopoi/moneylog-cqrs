@@ -45,8 +45,7 @@ public enum ErrorCode {
     MEMBER_EMAIL_EMPTY("이메일이 없습니다.", BAD_REQUEST),
     MEMBER_EMAIL_INVALID("잘못된 이메일입니다.", BAD_REQUEST),
     MEMBER_PASSWORD_EMPTY("비밀번호가 없습니다.", BAD_REQUEST),
-
-    ROLE_NAME_INVALID("잘못된 권한입니다.", BAD_REQUEST);
+    MEMBER_ROLE_INVALID("잘못된 사용자 권한입니다.", BAD_REQUEST);
 
     private final String message;
     private final HttpStatus httpStatus;

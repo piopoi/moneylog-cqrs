@@ -7,18 +7,18 @@ import lombok.Getter;
 @Getter
 public class CustomErrorResponse {
 
-    private final String code;
+    private final Integer code;
     private final String message;
 
     @Builder
-    private CustomErrorResponse(String code, String message) {
+    private CustomErrorResponse(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
     public static CustomErrorResponse of(ErrorCode errorCode) {
         return CustomErrorResponse.builder()
-                .code(errorCode.name())
+                .code(errorCode.getHttpStatus().value())
                 .message(errorCode.getMessage())
                 .build();
     }

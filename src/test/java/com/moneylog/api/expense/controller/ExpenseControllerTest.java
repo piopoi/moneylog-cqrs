@@ -124,7 +124,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(EXPENSE_EXPENDEDAT_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_EXPENDEDAT_EMPTY.getMessage()));
     }
 
     @Test
@@ -145,7 +145,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(EXPENSE_EXPENSEAMOUNT_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_EXPENSEAMOUNT_EMPTY.getMessage()));
     }
 
     @Test
@@ -167,7 +167,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(EXPENSE_EXPENSEAMOUNT_MINUS.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_EXPENSEAMOUNT_MINUS.getMessage()));
     }
 
     @Test
@@ -188,7 +188,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(CATEGORY_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(CATEGORY_EMPTY.getMessage()));
     }
 
     @Test
@@ -209,7 +209,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(EXPENSE_ISEXCLUDETOTAL_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_ISEXCLUDETOTAL_EMPTY.getMessage()));
     }
 
     @Test
@@ -253,7 +253,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
+                .andExpect(jsonPath("$.message").value(COMMON_ACCESS_DENIED.getMessage()));
     }
 
     @Test
@@ -267,7 +267,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(EXPENSE_NOT_EXISTS.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_NOT_EXISTS.getMessage()));
     }
 
     @Test
@@ -301,8 +301,7 @@ class ExpenseControllerTest {
                         .content(objectMapper.writeValueAsString(params))
                 )
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(EXPENSE_EXPENSEAMOUNT_MINUS.name()));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -328,7 +327,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
+                .andExpect(jsonPath("$.message").value(COMMON_ACCESS_DENIED.getMessage()));
     }
 
     @Test
@@ -341,7 +340,7 @@ class ExpenseControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(EXPENSE_NOT_EXISTS.name()));
+                .andExpect(jsonPath("$.message").value(EXPENSE_NOT_EXISTS.getMessage()));
     }
 
     @Test
@@ -398,7 +397,7 @@ class ExpenseControllerTest {
         mockMvc.perform(delete(requestUri + "/{expenseId}", expense.getId()))
                 .andDo(print())
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value(COMMON_ACCESS_DENIED.name()));
+                .andExpect(jsonPath("$.message").value(COMMON_ACCESS_DENIED.getMessage()));
     }
 
     private void saveTestData() {

@@ -93,7 +93,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_REQUEST_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(BUDGET_REQUEST_EMPTY.getMessage()));
     }
 
     @Test
@@ -115,7 +115,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(CATEGORY_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(CATEGORY_EMPTY.getMessage()));
     }
 
     @Test
@@ -137,7 +137,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_BUDGETAMOUNT_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(BUDGET_BUDGETAMOUNT_EMPTY.getMessage()));
     }
 
     @Test
@@ -160,7 +160,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_BUDGETAMOUNT_INVALID.name()));
+                .andExpect(jsonPath("$.message").value(BUDGET_BUDGETAMOUNT_INVALID.getMessage()));
     }
 
     @Test
@@ -200,7 +200,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_TOTALAMOUNT_EMPTY.name()));
+                .andExpect(jsonPath("$.message").value(BUDGET_TOTALAMOUNT_EMPTY.getMessage()));
     }
 
     @Test
@@ -220,7 +220,7 @@ class BudgetControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(BUDGET_TOTALAMOUNT_INVALID.name()));
+                .andExpect(jsonPath("$.message").value(BUDGET_TOTALAMOUNT_INVALID.getMessage()));
     }
 
     private BudgetCreateRequest createBudgetCreateRequest() {

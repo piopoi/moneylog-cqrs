@@ -6,6 +6,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_ENCODING;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.moneylog.api.exception.domain.CustomException;
 import com.moneylog.api.exception.domain.ErrorCode;
 import com.moneylog.api.exception.dto.CustomErrorResponse;
@@ -35,6 +36,15 @@ public class GlobalExceptionHandler {
         return createResponseEntity(errorCode);
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<CustomErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
+        if (e.getCause() instanceof MismatchedInputException mismatchedInputException) {
+            String message = String.format("잘못된 %s 값 입니다.", mismatchedInputException.getPath().get(0).getFieldName());
+            return createResponseEntity(BAD_REQUEST, message);
+        }
+        return createResponseEntity(BAD_REQUEST, "확인할 수 없는 형태의 데이터가 들어왔습니다.");
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         logError(e);
@@ -43,16 +53,10 @@ public class GlobalExceptionHandler {
         return createResponseEntity(errorCode);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<CustomErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        logError(e);
-        return createResponseEntity(BAD_REQUEST, null, e.getMessage());
-    }
-
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<CustomErrorResponse> handleNumberFormatException(NumberFormatException e) {
         logError(e);
-        return createResponseEntity(BAD_REQUEST, null, e.getMessage());
+        return createResponseEntity(BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -73,7 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
         logError(e);
-        return createResponseEntity(INTERNAL_SERVER_ERROR, COMMON_SERVER_ERROR.name(), e.getMessage());
+        return createResponseEntity(INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
     private ErrorCode errorMessageToErrorCode(String errorMessage, ErrorCode defaultErrorCode) {
@@ -93,12 +97,12 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<CustomErrorResponse> createResponseEntity(ErrorCode errorCode) {
-        return createResponseEntity(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage());
+        return createResponseEntity(errorCode.getHttpStatus(), errorCode.getMessage());
     }
 
-    private ResponseEntity<CustomErrorResponse> createResponseEntity(HttpStatus httpStatus, String code, String message) {
+    private ResponseEntity<CustomErrorResponse> createResponseEntity(HttpStatus httpStatus, String message) {
         CustomErrorResponse customErrorResponse = CustomErrorResponse.builder()
-                .code(code)
+                .code(httpStatus.value())
                 .message(message)
                 .build();
         return ResponseEntity
