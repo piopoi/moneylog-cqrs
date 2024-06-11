@@ -39,5 +39,5 @@ out/
 ### Custom ###
 .DS_Store
 logs/
-docker/
+docker/mysql/data/**
 generated/
