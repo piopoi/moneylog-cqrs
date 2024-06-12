@@ -7,13 +7,14 @@ Refactoring하는 프로젝트.
 <br>
 
 # 사용 기술 & 도구
-- Java 21 -> 17에서 버전 업.
+- Java 21
 - Spring Boot 3.1.5
 - Spring Security 6.1.5
 - **MySQL 8.0.34 -> Command**
 - **MongoDB 7.0.11 -> Query**
 - **Apache Kafka, ZooKeeper**
 - Kafka-ui
+- Redis -> Cache
 - Docker, Docker Compose
 - Swagger
 - Jira
@@ -24,9 +25,10 @@ Refactoring하는 프로젝트.
 
 ## Database, Middleware 설치
 
-### 사용한 도커 이미지들
-- MySQL 8.0.34
-- MongoDB 7.0.11
+### Used Docker Images
+- mysql:8.0.34
+- mongo:7.0.11
+- redis:latest
 - confluentinc/cp-kafka:latest
 - confluentinc/cp-zookeeper:latest
 - provectuslabs/kafka-ui:latest

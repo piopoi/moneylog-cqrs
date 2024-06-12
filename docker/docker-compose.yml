@@ -85,6 +85,18 @@ services:
     networks:
       - moneylog_network
 
+  redis:
+    image: redis:latest
+    container_name: moneylog-redis
+    ports:
+      - 6379:6379
+    hostname: moneylog_cqrs
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+#      - ./redis/users.acl:/usr/local/etc/redis/users.acl
+
   mongodb:
     image: mongo:7.0.11
     container_name: moneylog-mongodb
@@ -92,7 +104,12 @@ services:
       - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./mongodb/data:/data
+      - ./mongodb/init_mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    command: --auth
     networks:
       - moneylog_network
 
@@ -102,10 +119,13 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: moneylog
+      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: moneylog_cqrs
+#      MYSQL_USER: moneylog_cqrs
+#      MYSQL_PASSWORD: password
     volumes:
       - ./mysql/data:/var/lib/mysql
+      - ./mysql/init_mysql.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - moneylog_network
 

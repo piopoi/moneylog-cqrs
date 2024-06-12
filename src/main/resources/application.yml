@@ -1,8 +1,28 @@
 spring:
-  profiles:
-    active: local
-    default: local
+#  profiles:
+#    active: local
+#    default: local
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: password
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: moneylog_cqrs
+      database: moneylog_cqrs
+      username: moneylog_cqrs
+      password: password
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/moneylog_cqrs?serverTimezone=Asia/Seoul
+    username: moneylog_cqrs
+    password: password
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
     defer-datasource-initialization: true
     generate-ddl: true
     properties:
@@ -14,11 +34,16 @@ spring:
       mode: always
       data-locations: classpath:db/data.sql
 
+security:
+  jwt:
+    secret-key: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXdhbnRlZC1wcmUtb25ib2FyZGluZy1iYWNrZW5kLWludGVybnNoaXAtc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXNlY3JldC1rZXkK
+    expire-period: 3600000
+
 springdoc:
   version: 0.0.1
   title: MoneyLog API Documentation
-  description: 머니로그 API 명세서
-  termsOfService: piopoi
+  description:
+  termsOfService:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
   paths-to-match: /api/**

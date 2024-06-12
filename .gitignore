@@ -40,4 +40,6 @@ out/
 .DS_Store
 logs/
 docker/mysql/data/**
+docker/mongodb/data/**
+docker/redis/data/**
 generated/
