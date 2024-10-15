@@ -11,13 +11,13 @@ import lombok.Getter;
 @Builder
 public class MemberCreateRequest {
 
-    @Schema(description = "사용자 이메일", example = "member@moneylog.com")
+    @Schema(description = "사용자 이메일", example = "test@test.com")
     @NotBlank(message = "MEMBER_EMAIL_EMPTY")
     @Email(message = "MEMBER_EMAIL_INVALID",
             regexp = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
     private String email;
 
-    @Schema(description = "사용자 비밀번호")
+    @Schema(description = "사용자 비밀번호", example = "password")
     @NotBlank(message = "MEMBER_PASSWORD_EMPTY")
     private String password;
 

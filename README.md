@@ -2,7 +2,8 @@
 
 [머니로그(moneylog)](https://github.com/piopoi/moneylog) 서비스를
 [CQRS Pattern](https://en.wikipedia.org/wiki/Command_Query_Responsibility_Segregation)으로 
-Refactoring하는 프로젝트.
+Refactoring하는 프로젝트.<br>
+Apache Kafka, MongoDB, MySQL을 조합하여 CQRS 패턴을 만들어 보는 것이 목표.
 
 <br>
 
@@ -45,4 +46,9 @@ cd docker/kafka-ui
 docker-compose up -d
 ```
 
-[http://localhost:8089](http://localhost:8089)에 접속하여 
+<br>
+
+# Links
+Application: [http://localhost:8089](http://localhost:8089) <br>
+UI for Apache Kafka: [http://localhost:8089/](http://localhost:8089/) <br>
+Swagger: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)

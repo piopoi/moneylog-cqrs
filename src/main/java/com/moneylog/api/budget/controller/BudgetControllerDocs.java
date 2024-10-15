@@ -2,10 +2,11 @@ package com.moneylog.api.budget.controller;
 
 import com.moneylog.api.auth.domain.MemberAdapter;
 import com.moneylog.api.budget.dto.BudgetCreateRequest;
-import com.moneylog.api.budget.dto.BudgetRecommendRequest;
-import com.moneylog.api.budget.dto.BudgetRecommendResponse;
+import com.moneylog.api.budget.dto.BudgetGetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -22,7 +23,12 @@ public interface BudgetControllerDocs {
     ResponseEntity<Void> createBudget(BudgetCreateRequest budgetCreateRequest,
                                       MemberAdapter memberAdapter);
 
-    @Operation(summary = "예산 추천", description = "사용자에게 총 예산액을 받아서 카테고리 별 예산을 추천한다.")
-    @ApiResponse(responseCode = "200", description = "OK")
-    ResponseEntity<List<BudgetRecommendResponse>> recommendBudget(BudgetRecommendRequest budgetRecommendRequest);
+    @Operation(summary = "회원의 예산 조회", description = "특정 회원의 모든 예산을 조회한다.")
+    @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = BudgetGetResponse.class))
+    )
+    ResponseEntity<List<BudgetGetResponse>> getBudgetsByMemberId(Long memberId);
 }

@@ -33,6 +33,22 @@ spring:
     init:
       mode: always
       data-locations: classpath:db/data.sql
+  kafka:
+    bootstrap-servers: localhost:29092,localhost:29093,localhost:29094  # docker-compose에 정의된 Kafka 브로커 포트
+    consumer:
+      group-id: budget-group  # 그룹 ID 설정
+      auto-offset-reset: earliest  # 가장 오래된 메시지부터 시작
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'  # Json 역직렬화를 위한 패키지 설정
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      missing-topics-fatal: false  # 존재하지 않는 토픽에서 오류 발생 시 애플리케이션 중단 방지
+    template:
+      default-topic: budget-events  # 기본 토픽 설정
 
 security:
   jwt:

@@ -70,6 +70,9 @@ dependencies {
     // log4j2
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+    //Apache Kafka
+    implementation 'org.springframework.kafka:spring-kafka:2.9.10'
 }
 
 tasks.named('test') {

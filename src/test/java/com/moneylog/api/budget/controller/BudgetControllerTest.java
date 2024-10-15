@@ -1,7 +1,5 @@
 package com.moneylog.api.budget.controller;
 
-import static com.moneylog.api.budget.service.BudgetRecommendService.ETC_CATEGORY_NAME;
-import static com.moneylog.api.budget.service.BudgetRecommendService.MIN_RECOMMEND_RATIO;
 import static com.moneylog.api.exception.domain.ErrorCode.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moneylog.api.budget.dto.BudgetCreateRequest;
 import com.moneylog.api.budget.dto.BudgetCreateRequest.BudgetRequest;
-import com.moneylog.api.budget.dto.BudgetRecommendRequest;
 import com.moneylog.api.category.domain.Category;
 import com.moneylog.api.category.repository.CategoryRepository;
 import com.moneylog.api.member.domain.Member;
@@ -161,66 +158,6 @@ class BudgetControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value(BUDGET_BUDGETAMOUNT_INVALID.getMessage()));
-    }
-
-    @Test
-    @WithUserDetails(value = email, setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @DisplayName("카테고리 별 예산을 추천할 수 있다.")
-    void recommendBudget() throws Exception {
-        //given
-        BudgetRecommendRequest budgetRecommendRequest = BudgetRecommendRequest.builder()
-                .totalAmount(1000000L)
-                .build();
-        List<Category> categories = categoryRepository.findByAverageRatioGreaterThanAndNameNot(MIN_RECOMMEND_RATIO, ETC_CATEGORY_NAME);
-
-        //when then
-        mockMvc.perform(get(requestUri + "/recommend")
-                        .accept(APPLICATION_JSON)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(budgetRecommendRequest))
-                )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(categories.size() + 1));
-    }
-
-    @Test
-    @WithUserDetails(value = email, setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @DisplayName("예산총액 없이 카테고리 별 예산을 추천할 수 없다.")
-    void recommendBudget_emptyTotalAmount() throws Exception {
-        //given
-        BudgetRecommendRequest budgetRecommendRequest = BudgetRecommendRequest.builder()
-                .build();
-
-        //when then
-        mockMvc.perform(get(requestUri + "/recommend")
-                        .accept(APPLICATION_JSON)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(budgetRecommendRequest))
-                )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(BUDGET_TOTALAMOUNT_EMPTY.getMessage()));
-    }
-
-    @Test
-    @WithUserDetails(value = email, setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    @DisplayName("잘못된 예산총액으로 카테고리 별 예산을 추천할 수 없다.")
-    void recommendBudget_invalidTotalAmount() throws Exception {
-        //given
-        BudgetRecommendRequest budgetRecommendRequest = BudgetRecommendRequest.builder()
-                .totalAmount(9999L)
-                .build();
-
-        //when then
-        mockMvc.perform(get(requestUri + "/recommend")
-                        .accept(APPLICATION_JSON)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(budgetRecommendRequest))
-                )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(BUDGET_TOTALAMOUNT_INVALID.getMessage()));
     }
 
     private BudgetCreateRequest createBudgetCreateRequest() {
